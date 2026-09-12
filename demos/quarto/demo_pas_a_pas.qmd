@@ -1,0 +1,155 @@
+---
+title: "Structures judiciaires — synthèse régionale"
+subtitle: "Démonstration Quarto — Formation R"
+author: "[Nom du formateur]"
+date: today
+lang: fr
+format:
+  html:
+    toc: true
+    toc-title: Sommaire
+    number-sections: true
+    embed-resources: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+# include: false -> ce bloc s'exécute mais n'apparaît pas dans le rapport.
+# C'est là qu'on met les chargements de packages et les imports.
+library(dplyr)
+library(ggplot2)
+
+structures   <- read.csv2("../../data/structures.csv",      fileEncoding = "UTF-8")
+departements <- read.csv2("../../data/departements.csv",    fileEncoding = "UTF-8")
+types        <- read.csv2("../../data/types_structure.csv", fileEncoding = "UTF-8")
+
+regional <- structures |>
+  inner_join(departements, by = "code_departement") |>
+  group_by(nom_region) |>
+  summarise(
+    nb_structures = n(),
+    taux_email    = mean(email != "")
+  ) |>
+  arrange(desc(nb_structures))
+```
+
+## Ce qu'est un document Quarto
+
+Ce rapport est un fichier `.qmd`. Il contient trois choses, et trois seulement :
+
+1. un **en-tête YAML**, entre les deux lignes `---` tout en haut, qui décrit le document : titre, auteur, format de sortie ;
+2. du **texte** en Markdown, comme ce paragraphe ;
+3. des **blocs de code R**, entre ` ```{r} ` et ` ``` `, exécutés à chaque compilation.
+
+Le bouton **Render** de RStudio exécute tout le code, récupère les résultats et assemble le document final. Le rapport ne peut donc jamais être en décalage avec les données : il est recalculé à chaque fois.
+
+::: {.callout-note}
+## Pourquoi cela change tout
+
+Un rapport Word produit par copier-coller est figé au jour de sa rédaction. Quand les données sont mises à jour, il faut tout refaire à la main — et l'on oublie toujours un chiffre quelque part.
+
+Un rapport Quarto se régénère en un clic, et **tous** les chiffres se mettent à jour ensemble.
+:::
+
+## Le texte peut contenir des résultats calculés
+
+Le référentiel compte `r nrow(structures)` structures réparties sur `r nrow(departements)` départements.
+
+Cette phrase ne contient aucun nombre écrit à la main : `nrow(structures)` est inséré dans le texte entre des accents graves précédés de `r`. Si le fichier source change, la phrase change avec lui.
+
+Au total, `r sum(structures$email != "")` structures disposent d'une adresse électronique, soit `r round(mean(structures$email != "") * 100)` % de l'ensemble.
+
+## Un tableau
+
+Le bloc ci-dessous affiche son résultat, mais pas le code qui l'a produit — c'est l'effet de l'option `echo: false`. C'est le réglage à utiliser pour un livrable destiné à la hiérarchie, qui veut le résultat et non la méthode.
+
+```{r}
+#| label: tbl-regions
+#| echo: false
+#| tbl-cap: "Les cinq régions les mieux dotées"
+regional |>
+  head(5) |>
+  mutate(taux_email = paste0(round(taux_email * 100), " %")) |>
+  rename(
+    Région              = nom_region,
+    `Nombre de structures` = nb_structures,
+    `Part avec courriel`   = taux_email
+  ) |>
+  knitr::kable()
+```
+
+## Un graphique
+
+Même principe pour les figures : le code reste caché, seule l'image apparaît. La légende est portée par l'option `fig-cap`.
+
+```{r}
+#| label: fig-regions
+#| echo: false
+#| fig-cap: "Nombre de structures par région"
+#| fig-width: 8
+#| fig-height: 5
+ggplot(regional, aes(x = reorder(nom_region, nb_structures), y = nb_structures)) +
+  geom_col(fill = "#2c5282") +
+  coord_flip() +
+  labs(x = NULL, y = "Nombre de structures",
+       caption = "Source : référentiel SRJ, data.gouv.fr") +
+  theme_minimal(base_size = 11)
+```
+
+## Montrer le code quand c'est utile
+
+Pour une note méthodologique destinée à un collègue, on veut au contraire que le code soit visible. Il suffit de ne pas mettre `echo: false` :
+
+```{r}
+#| label: exemple-visible
+moyenne_nationale <- mean(structures$email != "")
+round(moyenne_nationale, 3)
+```
+
+## Les options de bloc les plus utiles
+
+| Option | Effet |
+|---|---|
+| `echo: false` | Exécute le code, masque le code, affiche le résultat |
+| `include: false` | Exécute le code, ne montre ni code ni résultat |
+| `eval: false` | Affiche le code sans l'exécuter |
+| `warning: false` | Masque les avertissements R |
+| `message: false` | Masque les messages de chargement des packages |
+| `fig-cap: "..."` | Légende de figure |
+| `tbl-cap: "..."` | Légende de tableau |
+
+Pour appliquer une option à **tout** le document, on la place dans l'en-tête YAML sous la clé `execute` :
+
+``` yaml
+execute:
+  echo: false
+  warning: false
+```
+
+## Changer de format de sortie
+
+Le même `.qmd` produit plusieurs formats — seule l'en-tête change :
+
+``` yaml
+format: html      # aucune installation supplémentaire
+format: docx      # Word, pratique pour un circuit de validation
+format: pdf       # nécessite une distribution LaTeX
+format: revealjs  # des diapositives
+```
+
+::: {.callout-warning}
+## Deux points à vérifier avant de vous lancer
+
+**Quarto est un logiciel, pas un package R.** Il s'installe séparément de R et de RStudio. Vérifiez sa présence avec `quarto::quarto_version()` dans la console. Sur un poste du ministère, son installation peut demander des droits administrateur : voyez avec la DSI.
+
+**Les formats PDF et Word** demandent des composants supplémentaires. Le format `html` fonctionne toujours, et s'ouvre dans n'importe quel navigateur — c'est le format à privilégier pour commencer.
+:::
+
+## Pour réutiliser ce document
+
+Le fichier `rapport_modele.qmd`, dans ce même dossier, est une version allégée et prête à remplir. Copiez-le, changez le titre, remplacez les blocs de code par les vôtres.
+
+---
+
+*Rapport généré le `r format(Sys.Date(), "%d/%m/%Y")` — Source : référentiel SRJ, data.gouv.fr, Licence Ouverte.*

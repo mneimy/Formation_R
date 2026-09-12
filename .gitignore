@@ -1,0 +1,26 @@
+# --- R ---
+.Rhistory
+.RData
+.Rapp.history
+.Ruserdata
+.Rproj.user/
+
+# --- Vos productions pendant la formation ---
+# Le dossier outputs/ est suivi par git, mais son contenu ne l'est pas :
+# tout ce qu'il contient peut etre regenere en relancant les scripts.
+outputs/*
+!outputs/.gitkeep
+
+# --- Quarto ---
+/.quarto/
+*_files/
+demos/quarto/*.html
+demos/quarto/*.docx
+demos/quarto/*.pdf
+
+# --- Sorties parasites ---
+Rplots.pdf
+
+# --- Systeme ---
+.DS_Store
+Thumbs.db

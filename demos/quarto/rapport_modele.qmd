@@ -1,0 +1,84 @@
+---
+title: "[Titre de votre rapport]"
+subtitle: "[Service — objet de la note]"
+author: "[Votre nom]"
+date: today
+lang: fr
+format:
+  html:
+    toc: true
+    toc-title: Sommaire
+    embed-resources: true
+execute:
+  echo: false      # le code ne s'affiche pas dans le rapport
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+# ---- Packages et import ----------------------------------------------------
+library(dplyr)
+library(ggplot2)
+
+donnees <- read.csv2("../../data/structures.csv", fileEncoding = "UTF-8")
+
+# ---- Contrôle après import -------------------------------------------------
+stopifnot(nrow(donnees) > 0)
+```
+
+## Objet
+
+[Une ou deux phrases : à quelle question ce rapport répond-il, et pour qui.]
+
+## Périmètre et source
+
+Données extraites le `r format(Sys.Date(), "%d/%m/%Y")`.
+Le fichier traité comporte `r nrow(donnees)` lignes et `r ncol(donnees)` colonnes.
+
+[Précisez ici la source, la date d'extraction et les éventuelles exclusions.]
+
+## Résultats
+
+```{r}
+#| label: tbl-principal
+#| tbl-cap: "[Légende du tableau]"
+donnees |>
+  count(type_code, sort = TRUE) |>
+  head(10) |>
+  knitr::kable()
+```
+
+[Commentez le tableau en une ou deux phrases : ce qu'il montre, pas ce qu'il contient.]
+
+```{r}
+#| label: fig-principal
+#| fig-cap: "[Légende de la figure]"
+#| fig-width: 8
+#| fig-height: 5
+donnees |>
+  count(type_code, sort = TRUE) |>
+  head(10) |>
+  ggplot(aes(x = reorder(type_code, n), y = n)) +
+  geom_col(fill = "#2c5282") +
+  coord_flip() +
+  labs(x = NULL, y = NULL, caption = "Source : [à compléter]") +
+  theme_minimal(base_size = 11)
+```
+
+## Contrôles effectués
+
+- Nombre de lignes attendu : vérifié
+- Doublons sur l'identifiant : `r sum(duplicated(donnees$id_structure))`
+- Valeurs manquantes ou vides sur les colonnes clés : `r sum(donnees$email == "")` courriels non renseignés
+
+[Mentionner ici les écarts constatés et la décision prise pour chacun.]
+
+## Limites
+
+[Ce que ce rapport ne dit pas. Un rapport qui n'énonce aucune limite est suspect.]
+
+---
+
+*Rapport reproductible — régénérer avec le bouton Render après mise à jour du fichier source.*
