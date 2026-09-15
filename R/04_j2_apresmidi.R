@@ -16,7 +16,7 @@
 # =============================================================================
 # 1. EXAMEN QCM                                                 (30 minutes)
 # =============================================================================
-# Le sujet vous est remis sur papier par le formateur.
+# Le sujet est dans ressources/QCM_examen.pdf (ou .docx).
 # 20 questions, 20 minutes, sans documentation ni ordinateur.
 # La correction commentee suit immediatement la passation.
 #

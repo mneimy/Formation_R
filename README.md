@@ -58,7 +58,7 @@ C'est ici que vous travaillez. Chaque script contient les énoncés sous forme d
 | `01_j1_matin.R` | Jour 1, matin | Micro-TP 1 à 3 — calculs, variables, types de données, vecteurs, conditions |
 | `02_j1_apresmidi.R` | Jour 1, après-midi | TP 1 et 2 — data frames, puis `dplyr` sur le fichier réel |
 | `03_j2_matin.R` | Jour 2, matin | Trois erreurs à corriger, micro-TP 4, réorganisation d'un script, TP 3 sur les fonctions |
-| `04_j2_apresmidi.R` | Jour 2, après-midi | Étapes A à E — interroger la base SQLite avec `dbplyr`. L'après-midi s'ouvre par l'examen, remis sur papier. |
+| `04_j2_apresmidi.R` | Jour 2, après-midi | Étapes A à E — interroger la base SQLite avec `dbplyr`. L'après-midi s'ouvre par l'examen. |
 | `99_regenerer_donnees.R` | Normalement jamais | Reconstruit `data/` à partir de `data/sources/`. Utile seulement si vous abîmez un fichier de données. Ne nécessite aucun accès internet. |
 
 Les corrigés de ces quatre scripts se trouvent dans le dossier `corriges/`.
@@ -112,10 +112,11 @@ Le dossier a son propre [README](corriges/README.md), qui revient sur les trois 
 | Fichier | Contenu |
 |---|---|
 | `script_modele.R` | Le modèle à reprendre pour vos propres traitements : en-tête normalisé et quatre sections — import, contrôle, transformation, export |
+| `QCM_examen.md` · `.docx` · `.pdf` | Le sujet de l'examen du Jour 2 — 20 questions, 20 minutes. Le `.pdf` est prêt à imprimer. |
 
 `script_modele.R` est le fichier le plus utile à emporter. C'est celui que vous copierez au bureau la semaine suivante.
 
-L'examen du Jour 2 vous sera remis sur papier par le formateur : il ne figure pas dans ce dépôt.
+Le corrigé de l'examen se trouve dans `corriges/`.
 
 ### `outputs/` — vos productions
 

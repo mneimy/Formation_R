@@ -12,6 +12,7 @@ Corrigés commentés des quatre demi-journées. Chaque script est exécutable de
 | `02_j1_apresmidi_corrige.R` | TP 1 et 2, puis la traduction du besoin métier |
 | `03_j2_matin_corrige.R` | Les trois erreurs, micro-TP 4, réorganisation de script, TP 3 |
 | `04_j2_apresmidi_corrige.R` | Étapes A à E — la base SQLite avec `dbplyr` |
+| `QCM_corrige.md` · `.docx` · `.pdf` | Corrigé de l'examen du Jour 2 : grille des 20 réponses, barème et commentaires de correction |
 
 ## Comment les exécuter
 
