@@ -61,6 +61,8 @@ C'est ici que vous travaillez. Chaque script contient les énoncés sous forme d
 | `04_j2_apresmidi.R` | Jour 2, après-midi | Étapes A à E — interroger la base SQLite avec `dbplyr`. L'après-midi s'ouvre par l'examen, remis sur papier. |
 | `99_regenerer_donnees.R` | Normalement jamais | Reconstruit `data/` à partir de `data/sources/`. Utile seulement si vous abîmez un fichier de données. Ne nécessite aucun accès internet. |
 
+Les corrigés de ces quatre scripts se trouvent dans le dossier `corriges/`.
+
 Chaque bloc de consignes se termine par une ligne de ce type :
 
 ```r
@@ -96,6 +98,14 @@ Pendant la séance, **vous observez, vous ne reproduisez pas**. Ces dossiers res
 | `quarto/rapport_modele.qmd` | Un squelette de note administrative à remplir : objet, périmètre, résultats, contrôles, limites |
 
 Les scripts ggplot2 s'exécutent **bloc par bloc** (Ctrl+Entrée), pas d'un seul coup : l'intérêt est de voir le graphique se construire.
+
+### `corriges/` — les corrigés des TP
+
+Les corrigés commentés des quatre demi-journées, exécutables de bout en bout. Chaque valeur annoncée en commentaire a été vérifiée sur les données du dépôt.
+
+Ils se lancent depuis la racine du projet : `source("corriges/01_j1_matin_corrige.R")`.
+
+Le dossier a son propre [README](corriges/README.md), qui revient sur les trois moments où R produit un résultat faux sans afficher d'erreur. **Cherchez avant de les ouvrir** : les lignes `# -> Réponse attendue :` des consignes suffisent à vous contrôler.
 
 ### `ressources/`
 
